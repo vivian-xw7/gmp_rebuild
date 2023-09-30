@@ -25,9 +25,12 @@ if( !class_exists('gmpRebuildPlugin') ) {
             
             add_action('init', array($this, 'register_custom_investments_cpt'));
             
+            add_action('init', array($this, 'register_custom_operating_experience_cpt'));
+            
             add_action('init', array($this, 'register_custom_taxonomy'));
         }
         
+        // Investment CPT
         public function register_custom_investments_cpt() {
             $labels = array(
                 'name' => 'Investments',
@@ -65,6 +68,33 @@ if( !class_exists('gmpRebuildPlugin') ) {
 
             register_taxonomy('investment_category', 'investment', $args);
         }
+
+        // Operating Experience CPT
+        public function register_custom_operating_experience_cpt() {
+            $labels = array(
+                'name' => 'Operating Experience',
+                'singular_name' => 'Operating Experience',
+                'menu_name' => 'Operating Experience',
+                'add_new' => 'Add New',
+                'add_new_item' => 'Add New Operating Experience',
+            );
+
+            $args = array(
+                'labels' => $labels,
+                'public' => true,
+                'has_archive' => true,
+                'publicly_queryable' => true,
+                'query_var' => true,
+                'rewrite' => array('slug' => 'operating-experience'),
+                'menu_icon' => 'dashicons-businessman',
+                'supports' => array('title', 'editor', 'thumbnail'),
+            );
+
+            register_post_type('operating_experience', $args);
+        }
+
+        
+        
     }
 
     $gmpRebuildPlugin = new gmpRebuildPlugin;
