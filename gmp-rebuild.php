@@ -43,7 +43,7 @@ if( !class_exists('gmpRebuildPlugin') ) {
 
         public function settings_link ( $links )
         {
-            $settings_link = '<a href="options-general.php?page=gmp_plugin">Settings</a>';
+            $settings_link = '<a href="admin.php?page=gmp_plugin">Settings</a>';
 
             array_push( $links, $settings_link );
 
