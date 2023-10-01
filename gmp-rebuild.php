@@ -12,10 +12,15 @@ if ( !defined('ABSPATH') ) {
 
 if( !class_exists('gmpRebuildPlugin') ) {
     class gmpRebuildPlugin {
+
+        public $plugin_name;
+
         public function __construct() 
         {
             define( 'MY_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
             require_once( MY_PLUGIN_PATH .'/vendor/autoload.php' );
+
+            $this->plugin_name = plugin_basename(__FILE__);
         }
 
         public function initialize()
@@ -25,13 +30,24 @@ if( !class_exists('gmpRebuildPlugin') ) {
 
             // add_action( 'admin_enqueue_scripts', array($this, 'enqueue') );
 
-            add_action( 'admin_menu', array($this, 'add_admin_pages') ); // this is throwing an error in the GMP tab
+            add_action( 'admin_menu', array($this, 'add_admin_pages') );
+
+            add_filter( "plugin_action_links_$this->plugin_name", array( $this, 'settings_link' ) );
             
             add_action('init', array($this, 'register_custom_investments_cpt'));
             
             add_action('init', array($this, 'register_custom_operating_experience_cpt'));
             
             add_action('init', array($this, 'register_custom_taxonomy'));
+        }
+
+        public function settings_link ( $links )
+        {
+            $settings_link = '<a href="options-general.php?page=gmp_plugin">Settings</a>';
+
+            array_push( $links, $settings_link );
+
+            return $links;
         }
 
         public function add_admin_pages ()
@@ -43,7 +59,8 @@ if( !class_exists('gmpRebuildPlugin') ) {
         public function admin_index()
         {
             // require template
-            require_once( plugin_dir_path( __FILE__ ) . 'templates/admin.php' );
+            // require_once( plugin_dir_path( __FILE__ ) . 'templates/admin.php' );
+            require_once( plugin_dir_path( __FILE__ ) . 'templates/archive-gmp.php' );
         }
         
         // function enqueue ()
