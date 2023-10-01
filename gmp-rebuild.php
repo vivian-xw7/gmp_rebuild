@@ -16,6 +16,7 @@ if ( file_exists(__FILE__) . dirname('/vendor/autoload.php') ) {
 }
 
 use Includes\Activate;
+use Includes\Deactivate;
 
 if( !class_exists('gmpRebuildPlugin') ) {
     class gmpRebuildPlugin {
@@ -87,6 +88,10 @@ if( !class_exists('gmpRebuildPlugin') ) {
 
         function activate() {
             Activate::activate();
+        }
+
+        function deactivate() {
+            Deactivate::deactivate();
         }
         
         // Investment CPT
@@ -161,8 +166,8 @@ if( !class_exists('gmpRebuildPlugin') ) {
 // require_once plugin_dir_path( __FILE__ ) . 'includes/gmp-plugin-activate.php';
 register_activation_hook( __FILE__, array( 'Includes\Activate', 'activate' ) );
 
-require_once plugin_dir_path( __FILE__ ) . 'includes/gmp-plugin-deactivate.php';
-register_deactivation_hook( __FILE__, array( 'GmpPluginDeactivate', 'deactivate' ) );
+// require_once plugin_dir_path( __FILE__ ) . 'includes/gmp-plugin-deactivate.php';
+register_deactivation_hook( __FILE__, array( 'Includes\Deactivate', 'deactivate' ) );
 
 
 
