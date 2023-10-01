@@ -62,15 +62,15 @@ if( !class_exists('gmpRebuildPlugin') ) {
             require_once( plugin_dir_path( __FILE__ ) . 'templates/archive-gmp.php' );
         }
 
-        // same as initialize() ???
-        public function activate() {
-            $this->custom_post_type();
-            flush_rewrite_rules();
-        }
+        // // same as initialize() ???
+        // public function activate() {
+        //     $this->custom_post_type();
+        //     flush_rewrite_rules();
+        // }
 
-        public function deactivate() {
-            flush_rewrite_rules();
-        }
+        // public function deactivate() {
+        //     flush_rewrite_rules();
+        // }
         
         function enqueue ()
         {
@@ -147,9 +147,11 @@ if( !class_exists('gmpRebuildPlugin') ) {
     $gmpRebuildPlugin->initialize();
 }
 
-register_activation_hook( __FILE__, array( $gmpRebuildPlugin, 'activate' ) );
+require_once plugin_dir_path( __FILE__ ) . 'includes/gmp-plugin-activate.php';
+register_activation_hook( __FILE__, array( 'GmpPluginActivate', 'activate' ) );
 
-// register_deactivation_hook( __FILE__, array( $gmpRebuildPlugin, 'deactivate' ) );
+require_once plugin_dir_path( __FILE__ ) . 'includes/gmp-plugin-deactivate.php';
+register_deactivation_hook( __FILE__, array( 'GmpPluginDeactivate', 'deactivate' ) );
 
 
 
