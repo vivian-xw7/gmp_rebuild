@@ -10,6 +10,13 @@ if ( !defined('ABSPATH') ) {
     die( 'You can\'t access this file, silly!' );
 }
 
+// vendor\autoload.php
+if ( file_exists(__FILE__) . dirname('/vendor/autoload.php') ) {
+    require_once dirname(__FILE__) . '/vendor/autoload.php';
+}
+
+use Includes\Activate;
+
 if( !class_exists('gmpRebuildPlugin') ) {
     class gmpRebuildPlugin {
 
@@ -26,7 +33,7 @@ if( !class_exists('gmpRebuildPlugin') ) {
         public function initialize()
         {
             include_once MY_PLUGIN_PATH .'includes/utilities.php';
-            include_once MY_PLUGIN_PATH .'includes/options-page.php';
+            // include_once MY_PLUGIN_PATH .'includes/options-page.php';
 
             add_action( 'admin_enqueue_scripts', array($this, 'enqueue') );
 
@@ -76,6 +83,10 @@ if( !class_exists('gmpRebuildPlugin') ) {
         {
             wp_enqueue_style( 'mypluginstyle', plugins_url( '/assets/styles.css', __FILE__ ) );
             wp_enqueue_script( 'mypluginscript', plugins_url( '/assets/script.js', __FILE__ ) );
+        }
+
+        function activate() {
+            Activate::activate();
         }
         
         // Investment CPT
@@ -147,8 +158,8 @@ if( !class_exists('gmpRebuildPlugin') ) {
     $gmpRebuildPlugin->initialize();
 }
 
-require_once plugin_dir_path( __FILE__ ) . 'includes/gmp-plugin-activate.php';
-register_activation_hook( __FILE__, array( 'GmpPluginActivate', 'activate' ) );
+// require_once plugin_dir_path( __FILE__ ) . 'includes/gmp-plugin-activate.php';
+register_activation_hook( __FILE__, array( 'Includes\Activate', 'activate' ) );
 
 require_once plugin_dir_path( __FILE__ ) . 'includes/gmp-plugin-deactivate.php';
 register_deactivation_hook( __FILE__, array( 'GmpPluginDeactivate', 'deactivate' ) );
