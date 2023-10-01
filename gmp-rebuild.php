@@ -28,7 +28,7 @@ if( !class_exists('gmpRebuildPlugin') ) {
             include_once MY_PLUGIN_PATH .'includes/utilities.php';
             include_once MY_PLUGIN_PATH .'includes/options-page.php';
 
-            // add_action( 'admin_enqueue_scripts', array($this, 'enqueue') );
+            add_action( 'admin_enqueue_scripts', array($this, 'enqueue') );
 
             add_action( 'admin_menu', array($this, 'add_admin_pages') );
 
@@ -52,7 +52,6 @@ if( !class_exists('gmpRebuildPlugin') ) {
 
         public function add_admin_pages ()
         {
-            // add_menu_page( $page_title, $menu_title, $capability, $menu_slug, '', '', null );
             add_menu_page( 'GMP Plugin', 'GMP Options', 'manage_options', 'gmp_plugin', array( $this, 'admin_index' ), 'dashicons-archive', 110 );
         }
 
@@ -62,11 +61,22 @@ if( !class_exists('gmpRebuildPlugin') ) {
             // require_once( plugin_dir_path( __FILE__ ) . 'templates/admin.php' );
             require_once( plugin_dir_path( __FILE__ ) . 'templates/archive-gmp.php' );
         }
+
+        // same as initialize() ???
+        public function activate() {
+            $this->custom_post_type();
+            flush_rewrite_rules();
+        }
+
+        public function deactivate() {
+            flush_rewrite_rules();
+        }
         
-        // function enqueue ()
-        // {
-        //     wp_enqueue_style( 'gmpstyle', plugins_url( '/assets/styles.css', __FILE__ ) );
-        // }
+        function enqueue ()
+        {
+            wp_enqueue_style( 'mypluginstyle', plugins_url( '/assets/styles.css', __FILE__ ) );
+            wp_enqueue_script( 'mypluginscript', plugins_url( '/assets/script.js', __FILE__ ) );
+        }
         
         // Investment CPT
         public function register_custom_investments_cpt() {
@@ -137,11 +147,10 @@ if( !class_exists('gmpRebuildPlugin') ) {
     $gmpRebuildPlugin->initialize();
 }
 
-// register_activation_hook( __FILE__, array( $gmpRebuildPlugin, 'activate' ) );
+register_activation_hook( __FILE__, array( $gmpRebuildPlugin, 'activate' ) );
 
 // register_deactivation_hook( __FILE__, array( $gmpRebuildPlugin, 'deactivate' ) );
 
-// register_uninstall_hook( __FILE__, array( $gmpRebuildPlugin, 'uninstall' ) );
 
 
 
