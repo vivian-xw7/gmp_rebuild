@@ -3,7 +3,6 @@
 Template Name: Main Archive
 */
 
-get_header();
 
 $investment_args = array(
     'post_type' => 'investments',
@@ -54,7 +53,4 @@ $experience_query = new WP_Query($experience_args);
     </ul>
 </div>
 
-<?php
-get_footer();
-?>
 

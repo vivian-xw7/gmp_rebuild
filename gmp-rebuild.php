@@ -36,7 +36,8 @@ if( !class_exists('gmpRebuildPlugin') ) {
 
         public function add_admin_pages ()
         {
-            add_menu_page( 'GMP Plugin', 'GMP', 'manage_options', 'gmp_plugin', array($this, 'admin_index', 'dashicons-archive', 110 ) );
+            // add_menu_page( $page_title, $menu_title, $capability, $menu_slug, '', '', null );
+            add_menu_page( 'GMP Plugin', 'GMP Options', 'manage_options', 'gmp_plugin', array( $this, 'admin_index' ), 'dashicons-archive', 110 );
         }
 
         public function admin_index()

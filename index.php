@@ -1,5 +1,5 @@
 <?php
 
-die('Enter if you dare');
+die('You shall not pass!!!');
 
 
