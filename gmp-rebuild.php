@@ -3,11 +3,11 @@
  * Plugin Name: GMP Rebuild
  * Description: A plugin meant to mimic the actual Grove Mountain Partners site
  * Version: 1.0.0
- * 
+ * Author: Vivian Hayes
  */
 
 if ( !defined('ABSPATH') ) {
-    die( 'You cannot be here' );
+    die( 'You can\'t access this file, silly!' );
 }
 
 if( !class_exists('gmpRebuildPlugin') ) {
@@ -22,6 +22,10 @@ if( !class_exists('gmpRebuildPlugin') ) {
         {
             include_once MY_PLUGIN_PATH .'includes/utilities.php';
             include_once MY_PLUGIN_PATH .'includes/options-page.php';
+
+            // add_action( 'admin_enqueue_scripts', array($this, 'enqueue') );
+
+            add_action( 'admin_menu', array($this, 'add_admin_pages') ); // this is throwing an error in the GMP tab
             
             add_action('init', array($this, 'register_custom_investments_cpt'));
             
@@ -29,6 +33,22 @@ if( !class_exists('gmpRebuildPlugin') ) {
             
             add_action('init', array($this, 'register_custom_taxonomy'));
         }
+
+        public function add_admin_pages ()
+        {
+            add_menu_page( 'GMP Plugin', 'GMP', 'manage_options', 'gmp_plugin', array($this, 'admin_index', 'dashicons-archive', 110 ) );
+        }
+
+        public function admin_index()
+        {
+            // require template
+            require_once( plugin_dir_path( __FILE__ ) . 'templates/admin.php' );
+        }
+        
+        // function enqueue ()
+        // {
+        //     wp_enqueue_style( 'gmpstyle', plugins_url( '/assets/styles.css', __FILE__ ) );
+        // }
         
         // Investment CPT
         public function register_custom_investments_cpt() {
@@ -93,10 +113,17 @@ if( !class_exists('gmpRebuildPlugin') ) {
             register_post_type('operating_experience', $args);
         }
 
-        
-        
     }
 
     $gmpRebuildPlugin = new gmpRebuildPlugin;
     $gmpRebuildPlugin->initialize();
 }
+
+// register_activation_hook( __FILE__, array( $gmpRebuildPlugin, 'activate' ) );
+
+// register_deactivation_hook( __FILE__, array( $gmpRebuildPlugin, 'deactivate' ) );
+
+// register_uninstall_hook( __FILE__, array( $gmpRebuildPlugin, 'uninstall' ) );
+
+
+

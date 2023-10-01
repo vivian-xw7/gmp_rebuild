@@ -3,19 +3,17 @@
 Template Name: Main Archive
 */
 
-get_header(); // Include your header
+get_header();
 
-// Query for "Investments" CPT
 $investment_args = array(
     'post_type' => 'investments',
-    'posts_per_page' => -1, // Display all posts
+    'posts_per_page' => -1,
 );
 $investment_query = new WP_Query($investment_args);
 
-// Query for "Operating Experience" CPT
 $experience_args = array(
     'post_type' => 'operating-experience',
-    'posts_per_page' => -1, // Display all posts
+    'posts_per_page' => -1,
 );
 $experience_query = new WP_Query($experience_args);
 ?>
@@ -57,6 +55,6 @@ $experience_query = new WP_Query($experience_args);
 </div>
 
 <?php
-get_footer(); // Include your footer
+get_footer();
 ?>
 
